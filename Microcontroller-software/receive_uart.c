@@ -13,21 +13,21 @@
 #include "main.h"
 
 uint8_t bufor[r_bufor_size];									// bufor do odbioru danych
-uint8_t* head = bufor + 5 * sizeof(uint8_t);					// wskaźnik na ostatnio zapisaną daną
-uint8_t* tail = bufor + 5 * sizeof(uint8_t);					// wskaźnik na najwcześniej zapisaną daną
-uint8_t* end = bufor + (r_bufor_size - 1) * sizeof(uint8_t);	// wskaźnik na koniec bufora
+uint8_t* head = bufor + 5;					// wskaźnik na ostatnio zapisaną daną
+uint8_t* tail = bufor + 5;					// wskaźnik na najwcześniej zapisaną daną
+uint8_t* end = bufor + (r_bufor_size - 1);	// wskaźnik na koniec bufora
 
 uint8_t bufor5[r_bufor_size5];									// bufor do odbioru instukcji sterujących
-uint8_t* head5 = bufor5 + 5 * sizeof(uint8_t);					// wskaźnik na ostatnio zapisaną daną
-uint8_t* tail5 = bufor5 + 5 * sizeof(uint8_t);					// wskaźnik na najwcześniej zapisaną daną
-uint8_t* end5 = bufor5 + (r_bufor_size5 - 1) * sizeof(uint8_t);	// wskaźnik na koniec bufora
+uint8_t* head5 = bufor5 + 5;					// wskaźnik na ostatnio zapisaną daną
+uint8_t* tail5 = bufor5 + 5;					// wskaźnik na najwcześniej zapisaną daną
+uint8_t* end5 = bufor5 + (r_bufor_size5 - 1);	// wskaźnik na koniec bufora
 
 
 // funkcja ustawia wskaźniki tak jakby bufor był pusty
 void clean_bufor()
 {
-	head = bufor + 5 * sizeof(uint8_t);
-	tail = bufor + 5 * sizeof(uint8_t);
+	head = bufor + 5;
+	tail = bufor + 5;
 }
 
 
@@ -94,7 +94,7 @@ int take_x_bytes(int x, uint8_t* data)
 			if (tail == end)
 				tail = bufor;
 			else
-				tail = tail + sizeof(uint8_t);
+				tail = tail + 1;
 
 			ile++;
 		}
@@ -125,7 +125,7 @@ int take_x_bytes5(int x, uint8_t* data)
 			if (tail5 == end5)
 				tail5 = bufor5;
 			else
-				tail5 = tail5 + sizeof(uint8_t);
+				tail5 = tail5 + 1;
 
 			ile++;
 		}
@@ -151,10 +151,10 @@ void receive_and_write(uint8_t data)
 		}
 	}
 
-	else if (head + sizeof(uint8_t) != tail)
+	else if (head + 1 != tail)
 	{
 		*head = data;
-		head = head + sizeof(uint8_t);
+		head = head + 1;
 	}
 }
 
@@ -171,10 +171,10 @@ void receive_and_write5(uint8_t data)
 		}
 	}
 
-	else if (head5 + sizeof(uint8_t) != tail5)
+	else if (head5 + 1 != tail5)
 	{
 		*head5 = data;
-		head5 = head5 + sizeof(uint8_t);
+		head5 = head5 + 1;
 	}
 }
 
