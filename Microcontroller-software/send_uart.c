@@ -12,9 +12,9 @@
 #include "usart.h"
 
 uint8_t s_bufor[s_bufor_size];		// bufor kołowy na wysyłane dane
-uint8_t* s_head = s_bufor + 5 * sizeof(uint8_t);		// wskaźnik na początek danych
-uint8_t* s_tail = s_bufor + 5 * sizeof(uint8_t);		// wskaźnik na koniec danych
-uint8_t* s_end = s_bufor + (s_bufor_size - 1) * sizeof(uint8_t);		// wskaźnik na koniec bufora
+uint8_t* s_head = s_bufor + 5;		// wskaźnik na początek danych
+uint8_t* s_tail = s_bufor + 5;		// wskaźnik na koniec danych
+uint8_t* s_end = s_bufor + (s_bufor_size - 1);		// wskaźnik na koniec bufora
 uint8_t data_send;		// wysyłana obecnie dana
 
 
@@ -38,7 +38,7 @@ void send_one_character()
 		if (s_tail == s_end)	// jeżeli doszedłem do końca bufora
 			s_tail = s_bufor;	// przeskakuję na początek
 		else					// w przeciwnym wypadku
-			s_tail = s_tail + sizeof(uint8_t);	// przesuwam wskaźnik na następne miejsce w pamieci
+			s_tail = s_tail + 1;	// przesuwam wskaźnik na następne miejsce w pamieci
 
 		// wysyłam pobraną z bufora daną
 		HAL_UART_Transmit_IT(&huart5, &data_send, 1);
@@ -64,10 +64,10 @@ void send_uart(const char message[])
 				s_head = s_bufor;
 			}
 		}
-		else if (s_head + sizeof(uint8_t) != s_tail)
+		else if (s_head + 1 != s_tail)
 		{
 			*s_head = data;
-			s_head = s_head + sizeof(uint8_t);
+			s_head = s_head + 1;
 		}
 	}
 
